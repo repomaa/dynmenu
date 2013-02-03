@@ -2,10 +2,10 @@ class Style
     @@re_color = Regexp.new(/^#[0-9a-fA-F]{6}$/)
     def initialize
         @colors = {
-            :bg     => "#000000",
-            :fg     => "#FFFFFF",
-            :bg_hi  => "#BBBBBB",
-            :fg_hi  => "#555555"
+            :bg     => "#202020",
+            :fg     => "#757575",
+            :bg_hi  => "#303030",
+            :fg_hi  => "#FECF35"
         }
     end
 
