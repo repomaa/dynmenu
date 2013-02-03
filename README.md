@@ -4,8 +4,9 @@ dynmenu
 
 Usage
 ---
-- clone the repo
-- start with `dynmenu.rb <file>` with `<file>` being the menu file. If it doesn't exist, it will be created.
+####Install
+- Install dynmenu with `gem install dynmenu` and you're good to go
+- start with `dynmenu <file>` with `<file>` being the menu file. If it doesn't exist, it will be created.
 
 ####Commands
 - `g` or `s` for web search. Example: `g dynmenu github`
