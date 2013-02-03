@@ -13,6 +13,7 @@ Usage
 
 ####Subtle commands and modes
 Same syntax as in subtles own launcher. See <http://subforge.org/projects/subtle-contrib/wiki/Launcher#Examples>
+
 In dynmenu you can also add the mode character (`+^\*`) after the command. (Helps with command completion)
 
 Check out `dynmenu.rb -h` for more info
