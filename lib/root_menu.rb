@@ -1,4 +1,4 @@
-require_relative 'menu'
+require 'menu'
 class Root_Menu < Menu
 
     def initialize history_length = 1000, history_items = 5

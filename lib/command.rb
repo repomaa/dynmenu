@@ -1,4 +1,4 @@
-require_relative 'item'
+require 'item'
 
 class Command
     if $subtle
