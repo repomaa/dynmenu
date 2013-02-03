@@ -1,5 +1,5 @@
-require './menu'
-require './dynamic'
+require_relative 'menu'
+require_relative 'dynamic'
 class Run_Menu < Menu
 
     include Dynamic

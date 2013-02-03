@@ -1,4 +1,5 @@
-require './item'
+require_relative 'item'
+
 class Menu
 
     include Item

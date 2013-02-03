@@ -7,12 +7,12 @@ begin
 rescue LoadError
     $subtle = false
 end
-require './root_menu'
-require './command'
-require './style'
-require './editor'
-require './history'
-require './run_menu'
+require_relative 'root_menu'
+require_relative 'command'
+require_relative 'style'
+require_relative 'editor'
+require_relative 'history'
+require_relative 'run_menu'
 
 license = <<END_LICENSE
 dynmenu - A dmenu wrapper written in Ruby

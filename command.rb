@@ -1,4 +1,5 @@
-require './item'
+require_relative 'item'
+
 class Command
     if $subtle
         @@RE_COMMAND = Regexp.new(/^[+\^\*]*.+(\s[+\^\*])*(\s[@#][A-Za-z0-9_-]+)*$/)
