@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'dynmenu'
 require 'yaml'
 $subtle = true
 $lines = 20
@@ -18,7 +17,6 @@ require 'run_menu'
 
 license = <<END_LICENSE
 dynmenu - A dmenu wrapper written in Ruby
-Version: #{Dynmenu::VERSION}
 ---
 Copyright (C) 2013 Joakim Reinert
 
