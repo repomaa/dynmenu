@@ -8,6 +8,9 @@ Usage
 - Install dynmenu with `gem install dynmenu` and you're good to go
 - start with `dynmenu <file>` with `<file>` being the menu file. If it doesn't exist, it will be created.
 
+Arch Linux users can use the included PKGBUILD
+
+
 ####Commands
 - `g` or `s` for web search. Example: `g dynmenu github`
 - `w` for webpage. Example: `w github.com` (you can also just enter the url, but it has to include the protocol)
