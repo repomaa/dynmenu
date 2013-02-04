@@ -9,5 +9,6 @@ Gem::Specification.new do |s|
     s.files         = Dir.glob("lib/*")
     s.executables   = ["dynmenu"]
     s.homepage      = 'https://github.com/supasnashbuhl/dynmenu'
+    s.requirements  = ['dmenu']
 end
 
