@@ -12,6 +12,13 @@ class Root_Menu < Menu
         set_item Run_Menu.new self, @history
     end
 
+    def execute
+        if $launcher
+            return Run_Menu.new(self, @history).execute unless @run_menu
+            @items.each_value {|item| return item.execute if item.is_a? Run_Menu}
+        end    
+        super
+    end
     def run_menu?
         @run_menu
     end
@@ -24,7 +31,6 @@ class Root_Menu < Menu
             partitions[1]
         end
     end
-
 
     def encode_with coder
         super

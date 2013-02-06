@@ -6,6 +6,7 @@ $debug = false
 $subtle = true
 $lines = 20
 $location = '-b '
+$launcher = false
 begin
     require 'subtle/subtlext'
 rescue LoadError
@@ -39,13 +40,16 @@ Usage:  dynmenu [options] file
                     -l <number> : Show max <number> lines in the menu (default=20)
                     -t          : Show dynmenu on top and not at the bottom.
                     -d          : Debug mode. Shows additional information for commands.
+                    --launcher  : Show only a launcher
+                                  (this would normally be under '>> Run' in the Menu)
+
     File:                       : The menu file to be loaded and saved to.
                                   It will be created if not existing.
 END_USAGE
 
 puts license
 
-if ARGV.length > 5 || ARGV.length < 1 || ARGV.include?("-h") || ARGV.include?("--help")
+if ARGV.length > 6 || ARGV.length < 1 || ARGV.include?("-h") || ARGV.include?("--help")
     puts usage
     exit
 elsif ARGV.include? "-l"
@@ -65,6 +69,7 @@ else
 end
 $debug = true if ARGV.include? '-d'
 $location = '' if ARGV.include? '-t'
+$launcher = true if ARGV.include? '--launcher'
 
 file = ARGV[ARGV.length - 1]
 if File.exist? file
