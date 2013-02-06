@@ -1,6 +1,6 @@
 # Maintainer: Joakim Reinert <mail@jreinert.com>
 pkgname=dynmenu-git
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
 pkgdesc="A dmenu wrapper written in Ruby for the subtle wm"
 arch=(any)
