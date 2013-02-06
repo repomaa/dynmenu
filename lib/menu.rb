@@ -74,7 +74,7 @@ class Menu
         unless $read_only || self.is_a?(Dynamic)
             entries << "> #{Editor.name}"
         end
-        command = "echo \"#{entries.join "\n"}\" | dmenu -i -b -l #{$lines} #{get_font_string} -nf \"#{@style.color :fg}\" -nb \"#{@style.color :bg}\" -sf \"#{@style.color :fg_hi}\" -sb \"#{@style.color :bg_hi}\" -p \"#{name}\""
+        command = "echo \"#{entries.join "\n"}\" | dmenu -i #{$location}-l #{$lines} #{get_font_string} -nf \"#{@style.color :fg}\" -nb \"#{@style.color :bg}\" -sf \"#{@style.color :fg_hi}\" -sb \"#{@style.color :bg_hi}\" -p \"#{name}\""
         (`#{command}`).strip
     end
 
