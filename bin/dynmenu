@@ -9,6 +9,7 @@ begin
 rescue LoadError
     $subtle = false
 end
+$subtle = false unless `pgrep subtle`.to_i > 0
 require 'root_menu'
 require 'command'
 require 'style'
@@ -60,7 +61,6 @@ else
 end
 
 file = ARGV[ARGV.length - 1]
-
 if File.exist? file
     menu = YAML::load File.read(file)
 else

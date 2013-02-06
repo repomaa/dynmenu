@@ -1,13 +1,13 @@
 # Maintainer: Joakim Reinert <mail@jreinert.com>
 pkgname=dynmenu-git
-pkgver=0.1
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="A dmenu wrapper written in Ruby for the subtle wm"
 arch=(any)
 url="http://github.com/supasnashbuhl/dynmenu"
 license=('GPL')
 depends=('ruby' 'dmenu') # Full dependency information is available in the yaml specification
-makedepends=('git' 'rubygems')
+makedepends=('git' 'rubygems' 'xdg-utils')
 md5sums=()
 optdepends=('subtle: subtle internal commands'
             'dmenu-xft: xft font support')

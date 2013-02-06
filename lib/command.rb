@@ -126,10 +126,14 @@ class Command
             if $subtle
                 subtle_execute
             else
-                system "#{@command} &>/dev/null"
+                command = "#{@command} &>/dev/null"
+                puts command
+                system command 
             end
         when URI
-            system "xdg-open '%s' &>/dev/null" % [ @command.to_s ]
+            command = "xdg-open '#{@command.to_s}' &>/dev/null"
+            puts command
+            system command
             if $subtle
                 browser = find_browser
                 browser.focus unless browser.nil?
@@ -139,6 +143,10 @@ class Command
     end
 
     def subtle_execute
+        puts "App: #{@app}"
+        puts "Tags: #{@tags.to_s}"
+        puts "Views: #{@views.to_s}"
+        puts "Modes: #{@modes.to_s}"
         tags = @tags.map do |t|
             tag = Subtlext::Tag.first(t) || Subtlext::Tag.new(t)
             tag.save
