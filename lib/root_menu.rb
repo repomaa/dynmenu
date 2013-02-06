@@ -1,9 +1,13 @@
 require 'menu'
+
 class Root_Menu < Menu
+
+    attr_writer :run_menu
+    attr_reader :history
 
     def initialize history_length = 1000, history_items = 5
         super "Dynmenu"
-        @run_menu = true
+        self.run_menu = true
         @history = History.new history_length, history_items
         set_item Run_Menu.new self, @history
     end
@@ -21,9 +25,6 @@ class Root_Menu < Menu
         end
     end
 
-    def set_run_menu value
-        @run_menu = value
-    end
 
     def encode_with coder
         super

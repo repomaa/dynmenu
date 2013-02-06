@@ -1,27 +1,31 @@
 require 'item'
 
+
 class Menu
 
     include Item
 
+    attr_accessor :style
+    attr_writer :name
+
     def initialize name
-        @name = name
+        self.name = name
         @items = Hash.new
-        @style = Style.new
-        set_item Editor.new self
+        self.style = Style.new
+        set_item(Editor.new self) unless self.is_a? Dynamic
     end
 
     def encode_with coder
         coder['name'] = @name
         coder['items'] = items
-        coder['style'] = @style
+        coder['style'] = style
     end
 
     def init_with coder
-        @name = coder['name']
+        self.name = coder['name']
         @items = coder['items']
-        @style = coder['style']
-        set_item Editor.new self
+        self.style = coder['style']
+        set_item(Editor.new self)
     end
 
     def set_item item
@@ -38,14 +42,6 @@ class Menu
 
     def name
         "> #{super}"
-    end
-
-    def style
-        @style
-    end
-
-    def set_style style
-        @style = style
     end
 
     def to_s
@@ -84,8 +80,8 @@ class Menu
 
     def get_font_string
         font = ""
-        unless @style.font.nil?
-            font = "-fn \"#{@style.font}\""
+        unless self.style.font.nil?
+            font = "-fn \"#{self.style.font}\""
         end
         font
     end

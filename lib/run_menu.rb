@@ -4,12 +4,12 @@ class Run_Menu < Menu
 
     include Dynamic
 
-    @@RE_HIDDEN = Regexp.new /\/{,1}\.[^\/]*$/ 
+    @@RE_HIDDEN = Regexp.new(/(^|\/)\.[^\/]*$/i)
         def initialize parent, history = History.new(1, 5), name = "Run"
-            @name = name 
+            self.name = name 
             @parent = parent
             @history = history
-            set_style parent.style
+            self.style = parent.style
         end
 
     def name
@@ -26,8 +26,10 @@ class Run_Menu < Menu
     def show_menu
         get_files
         history_items = @history.items
-        items = history_items[:first] + @files + history_items[:rest] 
-        super items, @name
+        items = history_items.first
+        items << '---' unless items.empty?
+        items += @files + history_items[1]
+        super items, self.name
     end
 
     def get_files dirs = (`echo $PATH`).split(':')

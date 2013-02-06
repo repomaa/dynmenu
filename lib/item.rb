@@ -3,7 +3,7 @@ module Item
         @name
     end
 
-    def set_name name
+    def name= name
         @name = name
     end
 end

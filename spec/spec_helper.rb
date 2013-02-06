@@ -1,0 +1,8 @@
+require 'command'
+require 'editor'
+require 'history'
+require 'item'
+require 'menu'
+require 'root_menu'
+require 'run_menu'
+require 'style'

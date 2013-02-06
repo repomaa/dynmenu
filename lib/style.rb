@@ -9,7 +9,7 @@ class Style
         }
     end
 
-    def set_color color, value
+    def color= color, value
         unless @colors.keys.include? color
             raise ArgumentError, "Invalid key!"
         end
@@ -26,7 +26,7 @@ class Style
         @colors[color]
     end
 
-    def set_font font
+    def font= font
         @font = font
     end
     def to_s

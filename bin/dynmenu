@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'yaml'
+
 $subtle = true
 $lines = 20
 begin
@@ -59,6 +60,7 @@ else
 end
 
 file = ARGV[ARGV.length - 1]
+
 if File.exist? file
     menu = YAML::load File.read(file)
 else

@@ -1,57 +1,52 @@
 require 'item'
+require 'uri'
+
 
 class Command
-    if $subtle
-        @@RE_COMMAND = Regexp.new(/^[+\^\*]*.+(\s[+\^\*])*(\s[@#][A-Za-z0-9_-]+)*$/)
-        @@RE_MODES   = Regexp.new(/^[+\^\*]+$/)
-        @@RE_SEARCH  = Regexp.new(/^[gs]\s+(.*)/)
-        @@RE_METHOD  = Regexp.new(/^:\s*(.*)/)
-        @@RE_BROWSER = Regexp.new(/(chrom[e|ium]|iron|navigator|firefox|opera)/i) 
-    end
+    @@RE_COMMAND = Regexp.new(/^[+\^\*]*.+(\s[+\^\*])*(\s[@#][A-Za-z0-9_-]+)*$/)
+    @@RE_MODES   = Regexp.new(/^[+\^\*=]+$/)
+    @@RE_METHOD  = Regexp.new(/^:\s*(.*)/)
+    @@RE_BROWSER = Regexp.new(/(chrom[e|ium]|iron|navigator|firefox|opera)/i) 
+    @@RE_SEARCH  = Regexp.new(/^[gs]\s+(.*)/)
     @@RE_URI = Regexp.new(/^((w\s+((https?|ftp):\/\/)?)|(https?|ftp):\/\/)(?:[A-Z0-9-]+.)+[A-Z]{2,6}([\/?].+)?$/i)
     @@RE_PROTO = Regexp.new(/^(http|https):\/\/.*/)
 
     include Item
 
+    attr_reader :tags, :views, :app, :modes, :command
+
     def initialize name, command = nil
         @name = name
-        if $subtle
-            @tags = []
-            @views = []
-            @app = ""
-            @modes = ""
-        end
+        clear_subtle_vars
+        self.command = command
+    end
 
-        set_command command
+    def clear_subtle_vars
+        @tags = []
+        @views = []
+        @app = ""
+        @modes = []
     end
 
     def encode_with coder
         coder['name'] = @name
         coder['command'] = @command
-        if $subtle
-            coder['tags'] = @tags
-            coder['views'] = @views
-            coder['app'] = @app
-            coder['modes'] = @modes
-        end
+        coder['tags'] = @tags
+        coder['views'] = @views
+        coder['app'] = @app
+        coder['modes'] = @modes
     end
 
     def init_with coder
         @name = coder['name']
         @command = coder['command']
-        if $subtle
-            @tags = coder['tags'] || []
-            @views = coder['views'] || []
-            @app = coder['app'] || ""
-            @modes = coder['modes'] || ""
-        end
+        @tags = coder['tags']
+        @views = coder['views']
+        @app = coder['app']
+        @modes = coder['modes']
     end
 
-    def command
-        @command
-    end
-
-    def set_command command
+    def command= command
         unless command.nil? || command.empty?
             if @@RE_URI.match command
                 split = Regexp.last_match(0).split(/\s+/)
@@ -64,17 +59,22 @@ class Command
                 if @@RE_METHOD.match(command)
                     command = Regexp.last_match(0).to_sym      
                 elsif @@RE_COMMAND.match command
-                    @tags = []
-                    @views = []
-                    @app = ""
-                    @modes = ""
+                    clear_subtle_vars
 
                     command.split.each do |arg|
                         case arg[0]
                         when '#' then @tags << arg[1..-1]
                         when '@' then @views << arg[1..-1]
-                        when '+', '^', '*'
-                            @modes += @@RE_MODES.match(arg).to_s
+                        when '+', '^', '*','='
+                            mode_s = @@RE_MODES.match(arg).to_s
+                            @modes += mode_s.split(//).map! do |c|
+                                case c
+                                when '+' then :full
+                                when '^' then :float
+                                when '*' then :stick
+                                when '=' then :zaphod
+                                end
+                            end
                         else
                             if @app.nil? || @app.empty?
                                 @app = arg
@@ -129,11 +129,10 @@ class Command
                 system "#{@command} &>/dev/null"
             end
         when URI
-            puts @command.to_s
-            system "xdg-open '%s' &>/dev/null &" % [ @command.to_s ]
+            system "xdg-open '%s' &>/dev/null" % [ @command.to_s ]
             if $subtle
-                find_browser
-                @browser.focus unless @browser.nil?
+                browser = find_browser
+                browser.focus unless browser.nil?
             end 
         end
         true
@@ -152,23 +151,8 @@ class Command
         end
         unless (client = Subtlext::Client.spawn(@app)).nil?
             client.tags = tags unless tags.empty?
-            unless @modes.empty?
-                flags = []
-
-                @modes.each_char do |c|
-                    case c
-                    when '+' then flags << :full
-                    when '^' then flags << :float
-                    when '*' then flags << :stick
-                    when '=' then flags << :zaphod
-                    end
-                end
-                client.flags = flags
-            end
+            client.flags = @modes unless @modes.empty?
         end
-    end
-
-    def to_s
-        "#{@name} => #{command}"
+        true
     end
 end

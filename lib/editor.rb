@@ -1,6 +1,7 @@
 require 'menu'
 require 'dynamic'
 
+
 class Editor < Menu
     
     include Dynamic
@@ -12,12 +13,12 @@ class Editor < Menu
     end
 
     def name
-        "> #{@@name}"
+        "> #{Editor.name}"
     end
 
     def initialize parent
         @parent = parent
-        set_style parent.style
+        self.style = parent.style
     end
 
     def to_s
@@ -35,13 +36,13 @@ class Editor < Menu
             entries << "Done"
             selection = show_menu entries, @@name
             case entries.index selection
-            when 0 then @parent.set_name show_menu([@parent.name], "Edit Name")
-            when 1 then @parent.set_style show_style_menu
+            when 0 then @parent.name = show_menu([@parent.name], "Edit Name")
+            when 1 then @parent.style = show_style_menu
             when 2 then show_entries_menu
             when 3 then show_run_menu_menu
             end
         end
-        @parent.execute
+        false
     end
 
     def show_run_menu_menu
@@ -57,7 +58,7 @@ class Editor < Menu
             entries << "Done"
             selection = show_menu entries, "Run menu"
             case entries.index selection
-            when 0 then @parent.set_run_menu !@parent.run_menu?
+            when 0 then @parent.run_menu = !@parent.run_menu?
             when 1 then show_history_menu
             end
         end
@@ -78,15 +79,15 @@ class Editor < Menu
             entries << "Done"
 
             selection = show_menu entries, "History"
-            case entries.index.selection
+            case entries.index selection
             when 0
                 selection = (show_menu [], "Enter a number")
                 number = selection.to_i
-                @parent.history.set_length number unless number < 1 || number.to_s != selection
+                @parent.history.length = number unless number < 1 || number.to_s != selection
             when 1
                 selection = (show_menu [], "Enter a number")
                 number = (show_menu [], "Enter a number").to_i
-                @parent.history.set_show_num_items number unless number.to_s != selection
+                @parent.history.show_num_items = number unless number.to_s != selection
             when 2 then clear = !clear
             when (entries.length - 1) then @parent.history.clear if clear
             end
@@ -112,7 +113,7 @@ class Editor < Menu
             colors = [:bg, :fg, :bg_hi, :fg_hi]
             unless (entries.index selection).nil?
                 if (entries.index selection) < 4
-                    style.set_color colors[entries.index selection], show_menu([style.color(colors[entries.index selection])], "Enter a color")
+                    style.color = colors[entries.index selection], show_menu([style.color(colors[entries.index selection])], "Enter a color")
                 elsif (entries.index selection) < 5
                     if style.font.nil?
                         selection = show_menu(["default"], "Set font")
@@ -120,7 +121,7 @@ class Editor < Menu
                         selection = show_menu([style.font], "Set font")
                     end
                     unless selection.nil? || selection == "default"
-                        style.set_font selection
+                        style.font = selection
                     end
                 end
             end
@@ -202,12 +203,12 @@ class Editor < Menu
             case entries.index selection
             when 0 
                 new_name = show_menu([command.name], "Enter a name")
-                command.set_name new_name unless new_name.empty?
+                command.name = new_name unless new_name.empty?
             when 1 
                 history = History.new 1, 1
                 history.update command.command unless command.command.nil? or command.command.empty?
                 new_command = Run_Menu.new(self, history, "Enter a command").show_menu
-                command.set_command new_command unless new_command.empty?
+                command.command = new_command unless new_command.empty?
             when 2 then delete = !delete unless new
             end
         end
@@ -219,7 +220,7 @@ class Editor < Menu
         new = menu.nil?
         if new
             menu = Menu.new "New menu"
-            menu.set_style @parent.style
+            menu.style = @parent.style
         end
         @parent.remove_item menu
         entries = []
@@ -241,7 +242,7 @@ class Editor < Menu
             selection = show_menu entries, string
             if (entries.index selection) == 0
                 new_name = show_menu [], "Enter a name"
-                menu.set_name new_name unless new_name.empty?
+                menu.name = new_name unless new_name.empty?
             end
             delete = !delete if (entries.index selection) == 1 && !new
         end

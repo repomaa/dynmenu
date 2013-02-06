@@ -1,24 +1,11 @@
 class History
+
+    attr_accessor :length, :show_num_items
+
     def initialize length, show_num_items = 5
         @items = {}
-        set_length length
-        set_show_num_items show_num_items
-    end
-    
-    def length
-        @length
-    end
-
-    def show_num_items
-        @show_num_items
-    end
-
-    def set_length length
-        @length = length
-    end
-
-    def set_show_num_items num
-        @show_num_items = num
+        self.length = length
+        self.show_num_items = show_num_items
     end
 
     def update item
@@ -30,11 +17,8 @@ class History
     end
 
     def items 
-        ret = {
-            :first => ((@items.sort_by {|item,age| age}).map {|pair| pair.first}).first(@show_num_items)
-        }
-        ret.store :rest, (@items.reject {|item, age| ret[:first].include? item}).keys
-        ret
+        sorted_items = (@items.sort_by {|item,age| age}).map {|pair| pair.first}
+        sorted_items.partition {|item| sorted_items.index(item) < (@show_num_items)}
     end
 
     def clear
