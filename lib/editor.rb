@@ -113,7 +113,7 @@ class Editor < Menu
             colors = [:bg, :fg, :bg_hi, :fg_hi]
             unless (entries.index selection).nil?
                 if (entries.index selection) < 4
-                    style.color = colors[entries.index selection], show_menu([style.color(colors[entries.index selection])], "Enter a color")
+                    style.set_color colors[entries.index selection], show_menu([style.color(colors[entries.index selection])], "Enter a color")
                 elsif (entries.index selection) < 5
                     if style.font.nil?
                         selection = show_menu(["default"], "Set font")

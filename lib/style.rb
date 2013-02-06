@@ -1,5 +1,5 @@
 class Style
-    @@re_color = Regexp.new(/^#[0-9a-fA-F]{6}$/)
+    @@re_color = Regexp.new(/^#(([0-9a-fA-F]{6})|([0-9a-fA-F]{3}))$/)
     def initialize
         @colors = {
             :bg     => "#202020",
@@ -9,7 +9,7 @@ class Style
         }
     end
 
-    def color= color, value
+    def set_color color, value
         unless @colors.keys.include? color
             raise ArgumentError, "Invalid key!"
         end
