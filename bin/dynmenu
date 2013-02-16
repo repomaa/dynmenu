@@ -74,6 +74,9 @@ $launcher = true if ARGV.include? '--launcher'
 file = ARGV[ARGV.length - 1]
 if File.exist? file
     menu = YAML::load File.read(file)
+    unless menu.is_a? Menu
+        menu = Root_Menu.new
+    end
 else
     menu = Root_Menu.new
 end
