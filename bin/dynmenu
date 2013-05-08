@@ -9,10 +9,11 @@ $location = '-b '
 $launcher = false
 begin
     require 'subtle/subtlext'
+    $subtle = false unless Subtlext::Subtle.running? 
+    $current_client = Subtlext::Client.current
 rescue LoadError
     $subtle = false
 end
-$subtle = false unless `pgrep subtle`.to_i > 0
 require 'root_menu'
 require 'command'
 require 'style'
@@ -46,8 +47,6 @@ Usage:  dynmenu [options] file
     File:                       : The menu file to be loaded and saved to.
                                   It will be created if not existing.
 END_USAGE
-
-puts license
 
 if ARGV.length > 6 || ARGV.length < 1 || ARGV.include?("-h") || ARGV.include?("--help")
     puts usage
