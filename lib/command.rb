@@ -5,7 +5,6 @@ require 'uri'
 class Command
     @@RE_COMMAND = Regexp.new(/^[+\^\*]*.+(\s[+\^\*])*(\s[@#][A-Za-z0-9_-]+)*$/)
     @@RE_MODES   = Regexp.new(/^[+\^\*=]+$/)
-    @@RE_CURRENT = Regexp.new(/^&(*[+-](([A-Za-z0-9_]+-*)+))/)
     @@RE_METHOD  = Regexp.new(/^:\s*(.*)/)
     @@RE_BROWSER = Regexp.new(/(chrom[e|ium]|iron|navigator|firefox|opera)/i) 
     @@RE_SEARCH  = Regexp.new(/^[gs]\s+(.*)/)
