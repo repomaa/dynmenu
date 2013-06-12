@@ -1,6 +1,6 @@
 # Maintainer: Joakim Reinert <mail@jreinert.com>
 pkgname=dynmenu-git
-pkgver=0.1.2
+pkgver=
 pkgrel=1
 pkgdesc="A dmenu wrapper written in Ruby for the subtle wm"
 arch=(any)
@@ -13,6 +13,11 @@ optdepends=('subtle: subtle internal commands'
             'dmenu-xft: xft font support')
 _gitroot="git://github.com/supasnashbuhl/dynmenu.git"
 _gitname="dynmenu"
+
+pkgver() {
+  cd "$srcdir"/$gitname
+  git describe --abbrev=0 --tags | cut -c 2-
+}
 
 build() {
     cd "$srcdir"
