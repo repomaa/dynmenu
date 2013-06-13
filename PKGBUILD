@@ -1,6 +1,6 @@
 # Maintainer: Joakim Reinert <mail@jreinert.com>
 pkgname=dynmenu-git
-pkgver=
+pkgver=git
 pkgrel=1
 pkgdesc="A dmenu wrapper written in Ruby for the subtle wm"
 arch=(any)
@@ -20,23 +20,23 @@ pkgver() {
 }
 
 build() {
-    cd "$srcdir"
-    msg "Connecting to GIT server...."
+  cd "$srcdir"
+  msg "Connecting to GIT server...."
 
-    if [[ -d "$_gitname" ]]; then
-      cd "$_gitname" && git pull origin
-      msg "The local files are updated."
-    else
-      git clone "$_gitroot" "$_gitname"
-    fi
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files are updated."
+  else
+    git clone "$_gitroot" "$_gitname"
+  fi
 
-    msg "GIT checkout done or server timeout"
-    msg "Starting build"
+  msg "GIT checkout done or server timeout"
+  msg "Starting build"
 
-    rm -rf "$srcdir/$_gitname-build"
-    git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
-    cd "$srcdir/$_gitname-build"
-    gem build $_gitname.gemspec
+  rm -rf "$srcdir/$_gitname-build"
+  git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+  cd "$srcdir/$_gitname-build"
+  gem build $_gitname.gemspec
 }
 
 package() {
@@ -50,4 +50,4 @@ package() {
     "$_gitname-$_gemver.gem"
 }
 
-# vim:set ts=2 sw=2 et:
+  # vim:set ts=2 sw=2 et:

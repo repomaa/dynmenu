@@ -10,7 +10,6 @@ $launcher = false
 begin
     require 'subtle/subtlext'
     $subtle = false unless Subtlext::Subtle.running? 
-    $current_client = Subtlext::Client.current
 rescue LoadError
     $subtle = false
 end
