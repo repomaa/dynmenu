@@ -7,6 +7,7 @@ class Menu
 
     attr_accessor :style
     attr_writer :name
+    attr_writer :path
 
     def initialize name
         self.name = name
@@ -15,10 +16,15 @@ class Menu
         set_item(Editor.new self) unless self.is_a? Dynamic
     end
 
+    def path
+      @path ||= '$PATH'
+    end
+
     def encode_with coder
         coder['name'] = @name
         coder['items'] = items
         coder['style'] = style
+        coder['path'] = path
     end
 
     def init_with coder
@@ -26,6 +32,7 @@ class Menu
         @items = coder['items']
         self.style = coder['style']
         set_item(Editor.new self)
+        self.path = coder['path']
     end
 
     def set_item item

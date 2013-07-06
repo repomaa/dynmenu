@@ -32,7 +32,7 @@ class Run_Menu < Menu
         super items, self.name
     end
 
-    def get_files dirs = (`echo $PATH`).split(':')
+    def get_files dirs = `echo #{path}`.split(':')
         @files = []
         dirs.each do |dir|
             get_files_rec dir
